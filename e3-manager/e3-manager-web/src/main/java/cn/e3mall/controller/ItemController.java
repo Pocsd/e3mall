@@ -28,4 +28,10 @@ public class ItemController {
 		TbItem tbItem = itemService.getItemById(itemId);
 		return tbItem;
 	}
+	
+	@RequestMapping("/home")
+	@ResponseBody
+	public String hello() {
+		return "Hello World";
+	}
 }
