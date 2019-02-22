@@ -5,6 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import cn.e3mall.common.EasyUIGradResult;
 import cn.e3mall.mapper.TbItemMapper;
 import cn.e3mall.pojo.TbItem;
 import cn.e3mall.pojo.TbItemExample;
@@ -38,6 +42,25 @@ public class ItemServiceImpl implements ItemService {
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public EasyUIGradResult getItemList(int page, int rows) {
+		PageHelper.startPage(page, rows);
+		
+		TbItemExample example = new TbItemExample();
+		
+		List<TbItem> items = itemMapper.selectByExample(example);
+		
+		EasyUIGradResult result = new EasyUIGradResult();
+		
+		result.setRows(items);
+		
+		PageInfo<TbItem> pageInfo = new PageInfo<TbItem>(items);
+		
+		result.setTotal(pageInfo.getTotal());
+		
+		return result;
 	}
 
 }
